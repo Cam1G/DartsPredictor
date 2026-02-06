@@ -2,7 +2,7 @@ import org.jsoup.*;
 import org.jsoup.nodes.*;
 import org.jsoup.select.*;
 
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,6 +52,35 @@ public class DartsScraper {
                 matches.add(new Match(player1, player2, player1sets, player2sets));
             }
         }
+        return matches;
+    }
+
+    public void writeMatchesToCSV(List<Match> matches) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter("matches.csv"));
+        for (Match match : matches) {
+            writer.write(match.getPlayer1() + "," +
+                    match.getPlayer2() + "," +
+                    match.getPlayer1Win()
+            );
+            writer.newLine();
+        }
+        writer.close();
+    }
+
+    public List<Match> readMatchesFromCSV() throws IOException {
+        List<Match> matches = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader("matches.csv"))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] values = line.split(",");
+                String p1Name = values[0];
+                String p2Name = values[1];
+                boolean player1Win = Boolean.parseBoolean(values[2]);
+                matches.add(new Match(p1Name, p2Name, player1Win));
+            }
+        }
+
         return matches;
     }
 

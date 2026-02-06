@@ -43,4 +43,8 @@ public class EloSystem {
         return expectedScore(p1, p2);
     }
 
+    public Map<String, Player> getPlayers() {
+        return players;
+    }
+
 }
