@@ -37,17 +37,22 @@ public class DartsScraper {
             Elements outcomes = eventPage.select("tr.match-row");
             for (Element outcome : outcomes) {
                 //All the match results
-                System.out.println(outcome.text());
                 Elements matchData = outcome.select("td");
                 String player1 = matchData.get(0).text();
+                if (player1.contains(" (")) {
+                    player1 = player1.substring(0, player1.indexOf(" ("));
+                }
                 String result = matchData.get(1).text();
                 int player1sets = Integer.parseInt(result.substring(0, result.indexOf('V') - 1));
                 int player2sets = Integer.parseInt(result.substring(result.indexOf('V') + 2));
                 String player2 = matchData.get(2).text();
-
+                if (player2.contains(" (")) {
+                    player2 = player2.substring(0, player2.indexOf(" ("));
+                }
                 matches.add(new Match(player1, player2, player1sets, player2sets));
             }
         }
         return matches;
     }
+
 }
