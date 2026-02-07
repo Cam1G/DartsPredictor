@@ -17,7 +17,7 @@ public class Main {
 
         if (rewriteCSV.equalsIgnoreCase("y")) {
             System.out.println("Generating CSV");
-            Elements events = scraper.scrapeEvents(2025);
+            Elements events = scraper.scrapeEvents(2026);
             matches = scraper.scrapeMatches(events);
             scraper.writeMatchesToCSV(matches);
         }

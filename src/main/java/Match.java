@@ -2,17 +2,20 @@ public class Match {
     private final String player1;
     private final String player2;
     private final boolean player1Win;
+    private final double prizeMoney;
 
-    public Match(String player1, String player2, int player1Sets, int player2Sets) {
+    public Match(String player1, String player2, int player1Sets, int player2Sets, double prizeMoney) {
         this.player1 = player1;
         this.player2 = player2;
         this.player1Win = player1Sets > player2Sets;
+        this.prizeMoney = prizeMoney;
     }
 
-    public Match(String player1, String player2, boolean player1Win) {
+    public Match(String player1, String player2, boolean player1Win, double prizeMoney) {
         this.player1 = player1;
         this.player2 = player2;
         this.player1Win = player1Win;
+        this.prizeMoney = prizeMoney;
     }
 
     public  String getPlayer1() {
@@ -24,5 +27,9 @@ public class Match {
 
     public boolean getPlayer1Win() {
         return player1Win;
+    }
+
+    public double getPrizeMoney() {
+        return prizeMoney;
     }
 }

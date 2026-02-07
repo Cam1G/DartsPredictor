@@ -6,7 +6,7 @@ public class Player {
     public Player(String name) {
         this.name = name;
         this.rating = 1500;
-        this.k = 20;
+        this.k = 10;
     }
 
     public String getName() {

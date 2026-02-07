@@ -1,6 +1,4 @@
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class EloSystem {
 
@@ -16,16 +14,20 @@ public class EloSystem {
         return 1 / (1 + Math.pow(10, (double) (p2.getRating() - p1.getRating()) / 400));
     }
 
-    public void updateScore(Player p1, Player p2, boolean player1Win) {
+    public void updateScore(Player p1, Player p2, boolean player1Win, double prizeMoney) {
         int s1 = player1Win ? 1 : 0;
         int s2 = player1Win ? 0 : 1;
-        double p1Rating = p1.getRating() + p1.getK() * (s1 - expectedScore(p1, p2));
-        double p2Rating = p2.getRating() + p2.getK() * (s2 - expectedScore(p2, p1));
+        double weightedK = p1.getK() * Math.log(prizeMoney);
+        double p1Rating = p1.getRating() + weightedK * (s1 - expectedScore(p1, p2));
+        double p2Rating = p2.getRating() + weightedK * (s2 - expectedScore(p2, p1));
         p1.setRating((int)p1Rating);
         p2.setRating((int)p2Rating);
     }
 
     public void train(List<Match> matches) {
+
+        Set<String> seen = new HashSet<>();
+
         for (Match match : matches) {
             String p1Name = match.getPlayer1();
             String p2Name = match.getPlayer2();
@@ -33,7 +35,7 @@ public class EloSystem {
             addPlayer(p2Name);
             Player p1 = players.get(p1Name);
             Player p2 = players.get(p2Name);
-            updateScore(p1, p2, match.getPlayer1Win());
+            updateScore(p1, p2, match.getPlayer1Win(), match.getPrizeMoney());
         }
     }
 
